@@ -1,87 +1,60 @@
 /**
- * Module 12: Tables as linked arrays
- * Guided Activity 1: Representing features with linked arrays
- * Program 1: Deck of Cards
+ * Program 2: Deck of Cards
  */
-package m12.ga1;
+package PA_C132;
 
 /**
- * Represent a card (suit, rank, value). Pick a random card.
- * Represent a deck of cards with linked arrays.
- * Create a new deck. Shuffle it. Print it.
- * Deal 5 cards to four players.
- * 
+ * class is to create a deck of cards with 52 cards 
+ * there will be Enums and classes used to create this deck of cards
  * @author Soroush Abdollahi
  *
  */
 public class DeckOfCards {
-
-	/**
-	 * Represent a card (suit, rank, value). Pick a random card.
-	 * Represent a deck of cards with linked arrays.
-	 * Create a new deck. Shuffle it. Print it.
-	 * Deal 5 cards to four players.
-	 * 
-	 * @param args - not user
-	 */
-	public static void main(String[] args) {
-		System.out.println("Deck of Cards by Soroush Abdollahi");
-		// Represent a card (suit, rank, value)
-		final String[] SUIT = {"Clubs", "Diamonds", "Hearts", "Spades"};
-		final String[] RANK = {"2", "3", "4", "5", "6", "7", "8", "9", "10",
-				"Jack", "Queen", "King", "Ace"};
-		final int[] RANK_VALUE = {2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 11};
-		int card1Suit = 2;
-		int card1Rank = 10;
-		System.out.printf("The card %s of %s has the value of %d.\n", RANK[card1Rank], SUIT[card1Suit], RANK_VALUE[card1Rank]);
-		
-		// Pick a random card
-		int card2Suit = (int)(Math.random()*4);
-		int card2Rank = (int)(Math.random()*13);
-		System.out.printf("The random card is: %s of %s has the value of %d.\n",
-				RANK[card2Rank], SUIT[card2Suit], RANK_VALUE[card2Rank]);
-		
-		// Represent a deck of cards with linked arrays.
-		int[] deckSuit = new int[52];
-		int[] deckRank = new int[52];
-		// Create a new deck
-		for (int s=0; s<4; s++) {
-			for (int r=0; r<13; r++) {
-				int i=s*13+r;
-				deckSuit[i] =s;
-				deckRank[i] =r;
+	
+	private Card[] deck;
+	private int numberOfCards;
+	
+	//constructor
+	public DeckOfCards() {
+		numberOfCards = 52;
+		deck = new Card[numberOfCards];
+		int i=0;
+		for(Suit suit: Suit.values()) {
+			for (Value value: Value.values()) {
+				deck[i++] = new Card(suit, value);
 			}
-		}
-		
-		// Shuffle it
-		for (int k=1; k<=500; k++) {
-			int i = (int)(Math.random()*52);
-			int j = (int)(Math.random()*52);
-			int temp = deckSuit[i];
-			deckSuit[i] = deckSuit[j];
-			deckSuit[j] = temp;
-			temp = deckRank[i];
-			deckRank[i] = deckRank[j];
-			deckRank[j] = temp;
-		}
-		
-		// Print it
-		System.out.print("The deck is:");
-		for (int k=0; k<52; k++) {
-			System.out.printf("%s of %s; ", RANK[deckRank[k]], SUIT[deckSuit[k]]);
-		}
-		System.out.println();
-		
-		// Deal 5 cards to four players
-		int currentDeckCard = 0;
-		for (int player=1; player<=4; player++) {
-			System.out.printf("Player %d: ", player);
-			for (int card=1; card<=5; card++) {
-				System.out.printf("%s of %s; ", RANK[deckRank[currentDeckCard]], SUIT[deckSuit[currentDeckCard]]);
-				currentDeckCard++;
-			}
-			System.out.println();
 		}
 	}
+	
+	//method to shuffle deck
+	public void shuffle() {
+		for (int i=0; i<52; i++) {
+			int i1 = (int)(Math.random()*52);
+			int i2 = (int)(Math.random()*52);
+			Card temp = deck[i1];
+			deck[i1] = deck[i2];
+			deck[i2] = temp;
+		}
+	}
+	
+	//method to deal cards
+	public Card dealCard() {
+		if (numberOfCards==0) throw new RuntimeException("Empty deck.");
+		return deck[--numberOfCards];
+	}
+	
 
+	public Hand dealHand() {
+		return new Hand(dealCard(),dealCard(),dealCard(),dealCard(),dealCard());
+	}
+	
+	public String toString() {
+		String result="";
+		for(int i=0; i<numberOfCards; i++) {
+			Card c = deck[i];
+			result += c+" ";
+		}
+		return result;
+	}
+	
 }
