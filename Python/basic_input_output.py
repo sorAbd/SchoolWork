@@ -1,0 +1,10 @@
+student_first_name = str(input("What is your first name? "))
+student_last_name = str(input("What is your last name? "))
+studnt_nova_id = int(input("what is your NOVA student ID? "))
+student_gpa_score = float(input("What is your gpa? "))
+student_semesters = int(input("how many semesters did you complete at NOVA? "))
+
+print("Hello", student_first_name,student_last_name,"!")
+print("Your NOVA ID is:", studnt_nova_id)
+print("Your current GPA is:", student_gpa_score)
+print("You have completed" , student_semesters, "semesters at NOVA")
